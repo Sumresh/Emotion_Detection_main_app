@@ -5,7 +5,7 @@ from audio_to_text import audio_to_text
 from audio_recorder_streamlit import audio_recorder
 from transformers import pipeline
 import pandas as pd
-from streamlit_extras import row
+
 from summarize import from_cohere
 from streamlit_extras.add_vertical_space import add_vertical_space
 
