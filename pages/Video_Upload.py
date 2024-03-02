@@ -14,15 +14,15 @@ uploaded_file = st.file_uploader("Choose a file", type=["avi", "mp4"])
 if uploaded_file is not None:
     # def extract_frames(video_path, output_folder):
         # Open the video file
-       with st.spinner('Analyzing...'): 
         save_directory = os.getcwd()
         os.makedirs(save_directory, exist_ok=True)
         filename = uploaded_file.name
         save_path = os.path.join(save_directory, "video.mp4")
         with open(save_path, "wb") as f:
             f.write(uploaded_file.getvalue())
-        st.success(f"File saved successfully")
-        video_capture = cv2.VideoCapture("video.mp4")
+        with st.spinner('Analyzing...'): 
+         st.success(f"File saved successfully")
+         video_capture = cv2.VideoCapture("video.mp4")
 
         # Read the video frame by frame
         success, frame = video_capture.read()
