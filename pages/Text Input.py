@@ -40,8 +40,8 @@ if prompt :=st.chat_input("What is up?", key="user_input1"):
     output=translate(prompt)
     translated_meaning=prompt + " \n " + output
     translated_meaning= f"Input:  \n{prompt}  \nTranslated to English:  \n{output}"
+    display_message("user", translated_meaning)
     with st.spinner('Analyzing...'):
-        display_message("user", translated_meaning)
         model_outputs = classifier(output)
 
         result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
