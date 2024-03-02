@@ -22,7 +22,7 @@ def main():
         with open(save_path, "wb") as f:
             f.write(file.getvalue())
         st.success(f"File saved successfully")
-    df = df_from_txt_whatsapp(".\chat.txt")
+    df = df_from_txt_whatsapp("chat.txt")
     
     # Convert 'date' column to datetime
     df['date'] = pd.to_datetime(df['date'])
