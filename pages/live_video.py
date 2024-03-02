@@ -6,7 +6,8 @@ import streamlit as st
 st.title("Live Emotion")
 
 # Load the pre-trained face detection classifier
-facedetect = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+# facedetect = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+facedetect = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
 # Initialize the image classification pipeline
 classifier = pipeline("image-classification", model="trpakov/vit-face-expression")
