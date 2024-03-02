@@ -31,6 +31,7 @@ file = st.file_uploader("Upload File", type=['txt', 'docx', 'pdf'])
 
 if file:
     # Read text from the uploaded file based on file type
+ with st.spinner('Analyzing...'):
     if file.type == 'text/plain':  # For .txt files
         text = file.getvalue().decode("utf-8")
     elif file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':  # For .docx files

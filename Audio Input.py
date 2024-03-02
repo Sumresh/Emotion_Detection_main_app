@@ -12,45 +12,45 @@ def display_message(role, content):
     st.markdown(content)
 
 def start_model_file():
-  
-  message = audio_to_text()
-  translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
+  with st.spinner('Analyzing...'):
+    message = audio_to_text()
+    translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
 
-  display_message("user", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
+    display_message("user", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
 
-  classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-  model_outputs = classifier(translated_text)
-  
-  result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
-  result1 = model_outputs[0][1]['label'] + " : " + str(round(model_outputs[0][1]['score'] * 100, 2)) + "%"
-  result2 = model_outputs[0][2]['label'] + " : " + str(round(model_outputs[0][2]['score'] * 100, 2)) + "%"
-  
-  display_message("assistant", f" - {result}  \n- {result1}  \n- {result2}")
+    classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
+    model_outputs = classifier(translated_text)
+    
+    result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
+    result1 = model_outputs[0][1]['label'] + " : " + str(round(model_outputs[0][1]['score'] * 100, 2)) + "%"
+    result2 = model_outputs[0][2]['label'] + " : " + str(round(model_outputs[0][2]['score'] * 100, 2)) + "%"
+    
+    display_message("assistant", f" - {result}  \n- {result1}  \n- {result2}")
 
-  data = model_outputs[0]
-  df = pd.DataFrame(data)
-  st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
-  display_message('assistant', f"Exlpaination:  \n{from_cohere(translated_text, [result, result1, result2])}")
+    data = model_outputs[0]
+    df = pd.DataFrame(data)
+    st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
+    display_message('assistant', f"Exlpaination:  \n{from_cohere(translated_text, [result, result1, result2])}")
 
 def start_model_live():
- 
-  message = audio_to_text()
-  translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
-  display_message("assistant", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
+  with st.spinner('Analyzing...'):
+    message = audio_to_text()
+    translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
+    display_message("assistant", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
 
-  classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-  model_outputs = classifier(translated_text)
-  result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
-  display_message("assistant", result)
+    classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
+    model_outputs = classifier(translated_text)
+    result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
+    display_message("assistant", result)
 
-  data = model_outputs[0]
-  df = pd.DataFrame(data)
-  # st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
+    data = model_outputs[0]
+    df = pd.DataFrame(data)
+    # st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
 
-  df['score_normalized'] = df['score'] * 100
+    df['score_normalized'] = df['score'] * 100
 
-# Plot the normalized scores as a bar chart
-  st.bar_chart(df.set_index('label')['score_normalized'], use_container_width=True, color="#87CEEB")
+  # Plot the normalized scores as a bar chart
+    st.bar_chart(df.set_index('label')['score_normalized'], use_container_width=True, color="#87CEEB")
 
 st.title("🎤🎙️Emotion Detection")
 
@@ -64,6 +64,7 @@ if uploaded_file is not None:
   save_path = os.path.join(save_directory, "audio.wav")
   with open(save_path, "wb") as f:
     f.write(uploaded_file.getvalue())
+  st.audio("audio.wav", format="audio/wav")
   st.success(f"File saved successfully")
   st.button('Run', on_click=start_model_file)
 

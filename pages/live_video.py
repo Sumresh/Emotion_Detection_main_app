@@ -14,7 +14,7 @@ classifier = pipeline("image-classification", model="trpakov/vit-face-expression
 video = cv2.VideoCapture(1)
 # Function to process video frames
 def main():
-    
+ with st.spinner('Analyzing...'):
     FRAME_WINDOW = st.image([])
     i = 0
     if st.button("Stop", key=i):
@@ -68,4 +68,5 @@ def main():
 
 # Start the main function
 if st.button("start"):
+
     main()

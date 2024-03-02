@@ -40,14 +40,15 @@ def main():
     filtered_df = filtered_df[~filtered_df['message'].str.contains("<Media omitted>")]
     # Display filtered DataFrame
     if st.button("Get Emotion"):
-        messages = filtered_df['message'].tolist()
-        emotions = []
-        for i in messages:
-            if len(i) > 20:
-                model_res = classifier(i[:20])
-            else:
-                model_res = classifier(i)
-            emotions.append(model_res[0][0]['label'])
+        with st.spinner('Analyzing...'):
+            messages = filtered_df['message'].tolist()
+            emotions = []
+            for i in messages:
+                if len(i) > 20:
+                    model_res = classifier(i[:20])
+                else:
+                    model_res = classifier(i)
+                emotions.append(model_res[0][0]['label'])
 
         filtered_df["Results"] = emotions
 

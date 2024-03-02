@@ -14,6 +14,7 @@ uploaded_file = st.file_uploader("Choose a file", type=["avi", "mp4"])
 if uploaded_file is not None:
     # def extract_frames(video_path, output_folder):
         # Open the video file
+       with st.spinner('Analyzing...'): 
         save_directory = os.getcwd()
         os.makedirs(save_directory, exist_ok=True)
         filename = uploaded_file.name

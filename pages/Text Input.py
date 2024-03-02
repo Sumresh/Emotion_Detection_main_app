@@ -40,24 +40,25 @@ if prompt :=st.chat_input("What is up?", key="user_input1"):
     output=translate(prompt)
     translated_meaning=prompt + " \n " + output
     translated_meaning= f"Input:  \n{prompt}  \nTranslated to English:  \n{output}"
-    display_message("user", translated_meaning)
-    model_outputs = classifier(output)
+    with st.spinner('Analyzing...'):
+        display_message("user", translated_meaning)
+        model_outputs = classifier(output)
 
-    result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
-    result1 = model_outputs[0][1]['label'] + " : " + str(round(model_outputs[0][1]['score'] * 100, 2)) + "%"
-    result2 = model_outputs[0][2]['label'] + " : " + str(round(model_outputs[0][2]['score'] * 100, 2)) + "%"
-
-
-    # display_message("assistant", result)
-    display_message("assistant", f"- {result}  \n- {result1}  \n- {result2}")
-
-    data=model_outputs[0]
-
-    df = pd.DataFrame(data)
+        result = model_outputs[0][0]['label'] + " : " + str(round(model_outputs[0][0]['score'] * 100, 2)) + "%"
+        result1 = model_outputs[0][1]['label'] + " : " + str(round(model_outputs[0][1]['score'] * 100, 2)) + "%"
+        result2 = model_outputs[0][2]['label'] + " : " + str(round(model_outputs[0][2]['score'] * 100, 2)) + "%"
 
 
+        # display_message("assistant", result)
+        display_message("assistant", f"- {result}  \n- {result1}  \n- {result2}")
 
-    df_sorted = df.sort_values(by='score', ascending=False)
+        data=model_outputs[0]
 
-    st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
-    display_message('assistant', f"Exlpaination:  \n{from_cohere(output, [result, result1, result2])}")
+        df = pd.DataFrame(data)
+
+
+
+        df_sorted = df.sort_values(by='score', ascending=False)
+
+        st.bar_chart(df.set_index('label')['score'], use_container_width=True, color="#87CEEB")
+        display_message('assistant', f"Exlpaination:  \n{from_cohere(output, [result, result1, result2])}")
