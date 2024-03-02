@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
+import os
 
+os.system("sudo apt update && sudo apt install ffmpeg")
 # Set the title of the main page
 st.title("Emotion Detector")
 
