@@ -5,7 +5,6 @@ from whatstk import df_from_txt_whatsapp
 from transformers import pipeline
 
 # Load the WhatsApp chat data
-df = df_from_txt_whatsapp("C:\Sumresh N\Aiml\emotion_detection_application\pages\chat.txt")
 
 classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
@@ -19,10 +18,11 @@ def main():
         save_directory = os.getcwd()
         os.makedirs(save_directory, exist_ok=True)
         filename = file.name
-        save_path = os.path.join(save_directory, "audio.wav")
+        save_path = os.path.join(save_directory, "chat.txt")
         with open(save_path, "wb") as f:
             f.write(file.getvalue())
         st.success(f"File saved successfully")
+    df = df_from_txt_whatsapp(".\chat.txt")
     
     # Convert 'date' column to datetime
     df['date'] = pd.to_datetime(df['date'])
