@@ -11,7 +11,7 @@ facedetect = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalf
 
 # Initialize the image classification pipeline
 classifier = pipeline("image-classification", model="trpakov/vit-face-expression")
-video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(1)
 # Function to process video frames
 def main():
     
