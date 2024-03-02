@@ -91,7 +91,7 @@ if choice=="Upload_File" :
 
 
 if choice=="Record Audio":
-  add_vertical_space(3)
+ 
   
   audio_bytes = audio_recorder(text="Click to record: ", neutral_color="#F47174", recording_color="#6FC276")
   if audio_bytes is not None:
