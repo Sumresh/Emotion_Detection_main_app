@@ -87,7 +87,9 @@ if choice=="Upload_File" :
         f.write(uploaded_file.getvalue())
     st.audio("audio.wav", format="audio/wav")    
     st.success(f"File saved successfully")
-    st.button('Run', on_click=start_model_file)
+    # st.button('Run', on_click=start_model_file)
+    st.button('Run', on_click="")
+
 
 
 
@@ -104,5 +106,6 @@ if choice=="Record Audio":
     with open(save_path, "wb") as f:
         f.write(audio_bytes)
     st.success(f"File saved successfully at {save_path}")
-    st.button('Run', on_click=start_model_live)
+    # st.button('Run', on_click=start_model_live)
+    st.button('Run', on_click="")
 
