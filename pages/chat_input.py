@@ -14,6 +14,8 @@ def main():
 
     # File uploader to upload chat data
     file = st.file_uploader("Upload File", type=['txt', 'docx', 'pdf'])
+    save_path = None  # Initialize save_path variable
+
     if file is not None:
         save_directory = os.getcwd()
         os.makedirs(save_directory, exist_ok=True)
@@ -21,14 +23,11 @@ def main():
         with open(save_path, "wb") as f:
             f.write(file.getvalue())
         st.success(f"File saved successfully")
-    else:
-        st.warning("Please upload a file.")
+    
+    # Display file path if it exists
+    if save_path is not None:
+        st.write("File Path:", save_path)
 
-    # Debug statement to check file path
-    st.write("File Path:", save_path)
-
-    # Check if the file exists before attempting to read it
-    if os.path.exists(save_path):
         df = df_from_txt_whatsapp(save_path)
         
         # Convert 'date' column to datetime
@@ -63,7 +62,7 @@ def main():
 
             st.write(filtered_df)
     else:
-        st.warning("File not found. Please upload a valid file.")
+        st.warning("Please upload a file.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
