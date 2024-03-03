@@ -21,39 +21,49 @@ def main():
         with open(save_path, "wb") as f:
             f.write(file.getvalue())
         st.success(f"File saved successfully")
-    df = df_from_txt_whatsapp("chat.txt")
-    
-    # Convert 'date' column to datetime
-    df['date'] = pd.to_datetime(df['date'])
+    else:
+        st.warning("Please upload a file.")
 
-    # Date inputs for filtering
-    start_date = st.date_input("Start Date")
-    end_date = st.date_input("End Date")
+    # Debug statement to check file path
+    st.write("File Path:", save_path)
 
-    # Convert start_date and end_date to datetime objects
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
+    # Check if the file exists before attempting to read it
+    if os.path.exists(save_path):
+        df = df_from_txt_whatsapp(save_path)
+        
+        # Convert 'date' column to datetime
+        df['date'] = pd.to_datetime(df['date'])
 
-    # Filter DataFrame for dates within the specified range
-    filtered_df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
-    filtered_df = filtered_df[~filtered_df['message'].str.contains("<Media omitted>")]
-    # Display filtered DataFrame
-    if st.button("Get Emotion"):
-        with st.spinner('Analyzing...'):
-            messages = filtered_df['message'].tolist()
-            emotions = []
-            for i in messages:
-                if len(i) > 20:
-                    model_res = classifier(i[:20])
-                else:
-                    model_res = classifier(i)
-                emotions.append(model_res[0][0]['label'])
+        # Date inputs for filtering
+        start_date = st.date_input("Start Date")
+        end_date = st.date_input("End Date")
 
-        filtered_df["Results"] = emotions
+        # Convert start_date and end_date to datetime objects
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
 
-        # Remove rows containing '<Media omitted>' in the "Results" column
+        # Filter DataFrame for dates within the specified range
+        filtered_df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
+        filtered_df = filtered_df[~filtered_df['message'].str.contains("<Media omitted>")]
+        # Display filtered DataFrame
+        if st.button("Get Emotion"):
+            with st.spinner('Analyzing...'):
+                messages = filtered_df['message'].tolist()
+                emotions = []
+                for i in messages:
+                    if len(i) > 20:
+                        model_res = classifier(i[:20])
+                    else:
+                        model_res = classifier(i)
+                    emotions.append(model_res[0][0]['label'])
 
-        st.write(filtered_df)
+            filtered_df["Results"] = emotions
+
+            # Remove rows containing '<Media omitted>' in the "Results" column
+
+            st.write(filtered_df)
+    else:
+        st.warning("File not found. Please upload a valid file.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
