@@ -17,7 +17,7 @@ def main():
     if file is not None:
         save_directory = os.getcwd()
         os.makedirs(save_directory, exist_ok=True)
-        filename = file.name
+        
         save_path = os.path.join(save_directory, "chat.txt")
         with open(save_path, "wb") as f:
             f.write(file.getvalue())
