@@ -74,20 +74,6 @@ choice = st.selectbox("Pick one", ["Upload_File", "Record Audio"])
 display_message("assistant", "Disclaimer  : Work In Progress")
 
 
-def start_model_file1():
-  with st.spinner('Analyzing...'):
-    message = audio_to_text()
-    translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
-
-    display_message("user", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
-
-def start_model_live1():
-  with st.spinner('Analyzing...'):
-    message = audio_to_text()
-    translated_text = GoogleTranslator(source='auto', target='en').translate(message['Transcription'])
-    display_message("assistant", f"Your Input: {message['Transcription']}  \nTranslated to ENGLISH: {translated_text}")
-
-
 
 
 if choice=="Upload_File" :
@@ -102,8 +88,7 @@ if choice=="Upload_File" :
     st.audio("audio.wav", format="audio/wav")    
     st.success(f"File saved successfully")
     # st.button('Run', on_click=start_model_file)
-    st.button('Run', on_click=start_model_file1)
-  
+    st.button('Run', on_click=None)
 
 
 
@@ -122,5 +107,5 @@ if choice=="Record Audio":
         f.write(audio_bytes)
     st.success(f"File saved successfully at {save_path}")
     # st.button('Run', on_click=start_model_live)
-    st.button('Run', on_click=start_model_live1)
+    st.button('Run', on_click=None)
 
